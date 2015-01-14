@@ -95,6 +95,7 @@ namespace omega {
 
 	private:
 		bool myInitialized;
+		bool myDisposed;
 		Engine* myServer;
 		List< Ref<Renderable> > myRenderables;
 	};
