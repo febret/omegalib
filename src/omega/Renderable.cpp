@@ -79,6 +79,7 @@ DrawInterface* Renderable::getRenderer()
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 RenderableFactory::RenderableFactory():
 	myInitialized(false),
+	myDisposed(false),
 	myServer(NULL)
 {
 }
@@ -102,6 +103,10 @@ Renderable* RenderableFactory::addRenderable(Renderer* cli)
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 void RenderableFactory::initialize(Engine* srv)
 {
+	if(myDisposed)
+	{
+		return;
+	}
 	if(!myInitialized)
 	{
 		//ofmsg("Initializing renderable factory: %1%", %toString());
@@ -121,6 +126,7 @@ void RenderableFactory::initialize(Engine* srv)
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 void RenderableFactory::dispose()
 {
+	myDisposed = true;
 	if(myInitialized || myRenderables.size() > 0)
 	{
 		//ofmsg("Disposing renderable factory: %1%", %toString());
