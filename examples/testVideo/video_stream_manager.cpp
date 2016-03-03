@@ -1,0 +1,67 @@
+#include "video_stream_manager.h"
+
+#include "video_stream_port.h"
+
+VideoStreamManager* VideoStreamManager::instance()
+{
+    static VideoStreamManager mgr;
+    return &mgr;
+}
+
+VideoStreamManager::VideoStreamManager( void )
+{
+}
+
+VideoStreamManager::~VideoStreamManager( void )
+{
+}
+
+VideoStreamPort* VideoStreamManager::getVideoStream( )
+{
+    fast_mutex_autolock autolock( _mutex );
+    VideoStreamPort* vsd = new VideoStreamPort;
+    vsd->init( );
+    _videoStreams.push_back( vsd );
+    return vsd;
+}
+
+void VideoStreamManager::delVideoStream( VideoStreamPort* video_stream )
+{
+    fast_mutex_autolock autolock( _mutex );
+    for( auto it = _videoStreams.begin(); it != _videoStreams.end(); ++it )
+    {
+        VideoStreamPort* vs = *it;
+        if( vs == video_stream )
+        {
+            vs->release();
+            delete vs;
+            _videoStreams.erase( it );
+            return;
+        }
+    }
+}
+
+void VideoStreamManager::updateAllStreams()
+{
+    foreach( VideoStreamPort* vs, _videoStreams )
+    {
+        vs->updateFrame();
+    }
+}
+
+bool VideoStreamManager::init()
+{
+    return true;
+}
+
+void VideoStreamManager::release()
+{
+    fast_mutex_autolock autolock( _mutex );
+    for( auto it = _videoStreams.begin(); it != _videoStreams.end(); ++it )
+    {
+        VideoStreamPort* vs = *it;
+        vs->release();
+        delete vs;
+    }
+    _videoStreams.clear();
+}
