@@ -55,7 +55,6 @@ Image* Image::create(Container* container)
 Image::Image(Engine* srv):
     Widget(srv),
     myData(NULL),
-    myFlipFlags(DrawInterface::FlipY),
     mySourceRect(0,0,0,0),
     myDestRect(0,0,0,0),
     myUseFullSource(true),
@@ -67,7 +66,7 @@ Image::Image(Engine* srv):
     setNavigationEnabled(false);
 
     // Set the default shader.
-    setShaderName("ui/widget-image");
+    setShaderName("system/shaders/widget-image");
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -105,20 +104,6 @@ void Image::setTexture(TextureSource* value)
     setActualSize(myData->getWidth(), Horizontal);
     setActualSize(myData->getHeight(), Vertical);
     refresh(); 
-}
-
-///////////////////////////////////////////////////////////////////////////////
-void Image::flipX(bool value)
-{
-    if(value) myFlipFlags |= DrawInterface::FlipX;
-    else myFlipFlags &= ~DrawInterface::FlipX;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-void Image::flipY(bool value)
-{
-    if(value) myFlipFlags |= DrawInterface::FlipY;
-    else myFlipFlags &= ~DrawInterface::FlipY;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

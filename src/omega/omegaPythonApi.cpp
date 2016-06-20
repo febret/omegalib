@@ -1325,6 +1325,9 @@ BOOST_PYTHON_MODULE(omega)
     // NodeList
     //PYAPI_POINTER_LIST(Node, "NodeList")
 
+    PYAPI_REF_BASE_CLASS(NodeComponent)
+        ;
+    
     // SceneNode
     PYAPI_REF_CLASS(SceneNode, Node)
         PYAPI_STATIC_REF_GETTER(SceneNode, create)
@@ -1351,7 +1354,9 @@ BOOST_PYTHON_MODULE(omega)
         PYAPI_METHOD(SceneNode, setFlag)
         PYAPI_METHOD(SceneNode, unsetFlag)
         PYAPI_METHOD(SceneNode, isFlagSet)
-    ;
+        PYAPI_METHOD(SceneNode, addComponent)
+        PYAPI_METHOD(SceneNode, removeComponent)
+        ;
 
     // CameraController
     PYAPI_REF_BASE_CLASS(CameraController)
@@ -1390,6 +1395,8 @@ BOOST_PYTHON_MODULE(omega)
         PYAPI_METHOD(DisplayConfig, setCanvasRect)
         PYAPI_METHOD(DisplayConfig, bringToFront)
         PYAPI_GETTER(DisplayConfig, getCanvasRect)
+        PYAPI_GETTER(DisplayConfig, rayToPoint)
+        PYAPI_METHOD(DisplayConfig, hasRayPointMapper)
         //.add_property("canvasPixelRect", 
         //    make_getter(&DisplayConfig::canvasPixelRect, PYAPI_RETURN_VALUE),
         //    make_setter(&DisplayConfig::canvasPixelRect))
@@ -1523,8 +1530,10 @@ BOOST_PYTHON_MODULE(omega)
 
     // TextureSource
     PYAPI_REF_BASE_CLASS(TextureSource)
-        PYAPI_METHOD(PixelData, getWidth)
-        PYAPI_METHOD(PixelData, getHeight)
+        PYAPI_METHOD(TextureSource, getWidth)
+        PYAPI_METHOD(TextureSource, getHeight)
+        PYAPI_METHOD(TextureSource, isDirty)
+        PYAPI_METHOD(TextureSource, setDirty)
         ;
 
     // PixelData
@@ -1630,17 +1639,23 @@ BOOST_PYTHON_MODULE(omega)
         PYAPI_METHOD(MissionControlClient, setClientListUpdatedCommand)
         PYAPI_METHOD(MissionControlClient, isLogForwardingEnabled)
         PYAPI_METHOD(MissionControlClient, setLogForwardingEnabled)
+        PYAPI_METHOD(MissionControlClient, spawn)
         ;
 
-    // MissionControlClient
+    // MissionControlServer
+    PYAPI_REF_BASE_CLASS(MissionControlConnection)
+        ;
+    
+    // MissionControlServer
     PYAPI_REF_BASE_CLASS(MissionControlServer)
         PYAPI_METHOD(MissionControlServer, getPort)
         PYAPI_METHOD(MissionControlServer, broadcastEvent)
         PYAPI_METHOD(MissionControlServer, sendEventTo)
+        PYAPI_REF_GETTER(MissionControlServer, findConnection)
         ;
 
 
-    class_< vector<String> >("StringVector").def(vector_indexing_suite< vector<String> >());
+    //class_< vector<String> >("StringVector").def(vector_indexing_suite< vector<String> >());
 
     // Event Flags
     PYAPI_ENUM(SceneQuery::QueryFlags, QueryFlags)

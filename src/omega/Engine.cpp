@@ -131,7 +131,7 @@ void Engine::initialize()
         else
         {
             // If all else fails, set a default fallback font.
-            setDefaultFont(FontInfo("console", "fonts/arial.ttf", 12));
+            setDefaultFont(FontInfo("console", "system/fonts/arial.ttf", 12));
         }
     }
 
@@ -514,7 +514,7 @@ bool Engine::handleCommand(const String& command)
 {
     // Process user quick commands.
     Vector<String> args = StringUtils::tokenise(command, " ");
-    if(args[0] == "?")
+    if(args[0] == "?" && args.size() == 1)
     {
         omsg("User-Defined Quick Commands:");
         foreach(QuickCommandDictionary::Item i, myQuickCommands)

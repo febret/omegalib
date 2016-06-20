@@ -118,7 +118,7 @@ bool ImageUtils::preallocateBlocks(size_t size, int numBlocks)
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 int ImageUtils::getNumPreallocatedBlocks()
 {
-    return sPreallocBlocks.size();
+    return (int)sPreallocBlocks.size();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -243,7 +243,7 @@ Ref<PixelData> ImageUtils::ffbmpToPixelData(FIBITMAP*& image, const String& file
         return NULL;
     }
 
-    if(sVerbose) ofmsg("Image loaded: %1%. Size: %2%x%3%", %filename %width %height);
+    if(sVerbose) ofmsg("Image loaded: %1%. Size: %2%x%3% %4%bpp", %filename %width %height %bpp);
 
     byte* data = pixelData->map();
 
@@ -341,7 +341,7 @@ Ref<PixelData> ImageUtils::loadImageFromStream(std::istream& fin, const String& 
 
     Ref<PixelData> pixelData = decode(buffer, length, streamName);
 
-    delete buffer;
+    delete [] buffer;
 
     return pixelData;
 }
@@ -349,7 +349,7 @@ Ref<PixelData> ImageUtils::loadImageFromStream(std::istream& fin, const String& 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 Ref<PixelData> ImageUtils::decode(void* data, size_t size, const String& bufName)
 {
-    FIMEMORY* mem = FreeImage_OpenMemory((BYTE*)data, size);
+    FIMEMORY* mem = FreeImage_OpenMemory((BYTE*)data, (int)size);
 
     uint bpp = 0;
     int width = 0;

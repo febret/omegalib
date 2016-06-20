@@ -15,6 +15,8 @@ Lead Developer:
     
 Contributors:
     Dennis Chau
+    Derek Gerstmann
+    Thomas Marrinan
     Victor Mateviitsi
     Koosha Mirhosseini
     Brad McGinnis
@@ -23,15 +25,16 @@ Contributors:
     Qi Sun
 
 Module Contributors:
+    Caroline Grace Alexander
     David Barnes
     Daniele Donghi
     Andrew Johnson
     Owen Kaluza
     Andreas Limbera
     Jason Leigh
-    Thomas Marrinan
     Matt McCrory
     Alex Simes
+    Luolei Zhao
 
 Patch Contributors:
     J Markus Maunus

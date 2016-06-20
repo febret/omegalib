@@ -39,6 +39,7 @@
 #include "omega/GpuProgram.h"
 #include "omega/GpuBuffer.h"
 #include "omega/RenderTarget.h"
+#include "omega/SystemManager.h"
 
 using namespace omega;
 
@@ -48,6 +49,7 @@ Lock GpuContext::mysContextLock = Lock();
 ///////////////////////////////////////////////////////////////////////////////
 GpuContext::GpuContext(GLEWContext* ctx)
 {
+    oassert(!oglError);
     myOwnGlewContext = false;
     mysContextLock.lock();
     myId = mysNumContexts++;
@@ -60,9 +62,14 @@ GpuContext::GpuContext(GLEWContext* ctx)
         myOwnGlewContext = true;
         glewSetContext(myGlewContext);
         oflog(Debug, "[GpuContext::GpuContext] <%1%> Glew init", %myId);
+        glewExperimental = GL_TRUE;
         glewInit();
     }
-
+    
+    // Get and ignore error right after glewInit().
+    // See http://stackoverflow.com/questions/14046111/glewinit-apparently-successful-sets-error-flag-anyway
+    glGetError();
+    
     mysContextLock.unlock();
 }
 
@@ -108,17 +115,17 @@ GpuProgram* GpuContext::createProgram()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-VertexBuffer* GpuContext::createVertexBuffer()
+GpuBuffer* GpuContext::createVertexBuffer()
 {
-    VertexBuffer* p = new VertexBuffer(this);
+    GpuBuffer* p = new GpuBuffer(this);
     myResources.push_back(p);
     return p;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-VertexArray* GpuContext::createVertexArray()
+GpuArray* GpuContext::createVertexArray()
 {
-    VertexArray* p = new VertexArray(this);
+    GpuArray* p = new GpuArray(this);
     myResources.push_back(p);
     return p;
 }

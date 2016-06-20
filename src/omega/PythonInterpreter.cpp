@@ -92,7 +92,11 @@ public:
             if(mccTarget == "") prompt = ostr("%1%>>", %sys->getApplication()->getName());
             else prompt = ostr("@%1%>>", %mccTarget);
             char *inp_c = readline(prompt.c_str()); //Instead of getline()
-                        
+            if(inp_c == NULL)
+            {
+                oerror("[PythonInteractiveThread] readline returned NULL");
+                break;
+            }
             // THE COMMAND OF DEATH
             if(inp_c[0] == 'D' &&
                 inp_c[1] == 'I' &&
@@ -277,7 +281,7 @@ void PythonInterpreter::initialize(const char* programName)
     {
         // Remove the final part of the path to get the python library root.
         String pythonLibPath = StringUtils::replaceAll(pythonModulePath, "/Lib/site.py", "");
-        ofmsg("PythonInterpreter::initialize: found local python library in %1%", %pythonLibPath);
+        oflog(Verbose, "PythonInterpreter::initialize: found local python library in %1%", %pythonLibPath);
 
         static char pythonHome[1024];
         strcpy(pythonHome, pythonLibPath.c_str());
@@ -306,7 +310,7 @@ void PythonInterpreter::initialize(const char* programName)
     }
     if(argv.size() > 0)
     {
-        PySys_SetArgv(argv.size(), argv.data());
+        PySys_SetArgv((int)argv.size(), argv.data());
     }
 
     // HACK: Calling PyRun_SimpleString for the first time for some reason results in
