@@ -102,6 +102,7 @@ if(OMEGA_BUILD_EXAMPLES)
     add_subdirectory(${CMAKE_SOURCE_DIR}/examples/omegaSound ${CMAKE_BINARY_DIR}/examples/omegaSound)
     add_subdirectory(${CMAKE_SOURCE_DIR}/examples/ohelloView ${CMAKE_BINARY_DIR}/examples/ohelloView)
     add_subdirectory(${CMAKE_SOURCE_DIR}/examples/text2texture ${CMAKE_BINARY_DIR}/examples/text2texture)
+    add_subdirectory(${CMAKE_SOURCE_DIR}/examples/testVideo ${CMAKE_BINARY_DIR}/examples/testVideo)
 endif()
 
 # Add the omegaToolkit library
