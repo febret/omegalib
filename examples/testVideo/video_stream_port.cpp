@@ -25,7 +25,7 @@ void VideoStreamPort::release()
 {
     _videoSrc.stop_video();
 
-    fast_mutex_autolock autolock( _videoDataMutex );
+    omicron::AutoLock autolock( _videoDataMutex );
     while( _videoDataBuf.size() > 0 )
     {
         VideoData* video_data = _videoDataBuf.front();
@@ -43,7 +43,7 @@ void VideoStreamPort::release()
 
 void VideoStreamPort::updateFrame()
 {
-    fast_mutex_autolock lock( _videoDataMutex );
+    omicron::AutoLock lock( _videoDataMutex );
     if( _videoData )
     {
         _pool.free( _videoData );
@@ -61,7 +61,7 @@ void VideoStreamPort::on_video_frame_got( unsigned char* buf, int w, int h )
 {
     if( _pool.getFreeCount() == 0 )
     {
-        fast_mutex_autolock lock( _videoDataMutex );
+        omicron::AutoLock lock( _videoDataMutex );
         VideoData* videoData = _videoDataBuf.front();
         _videoDataBuf.pop();
         _pool.free( videoData );
@@ -70,14 +70,14 @@ void VideoStreamPort::on_video_frame_got( unsigned char* buf, int w, int h )
     VideoData* videoData = _pool.malloc( w, h, size );
     if( !videoData )
     {
-        DebugBreak();
+        //DebugBreak();
     }
     else
     {
         memcpy( videoData->data, buf, size );
         videoData->w = w;
         videoData->h = h;
-        fast_mutex_autolock lock( _videoDataMutex );
+        omicron::AutoLock lock( _videoDataMutex );
         _videoDataBuf.push( videoData );
     }
 }

@@ -1,10 +1,10 @@
 #include <omega.h>
 
-#include <thread>
+#include <omicron/Thread.h>
 
 #include "libstreamport.h"
 
-class streamport
+class streamport : public omicron::Thread
 {
 public:
     streamport()
@@ -21,9 +21,9 @@ public:
     {
 
     }
-    void thread_task( streamport* sp )
+    virtual void threadProc()
     {
-        while( !sp->_stop )
+        while( !_stop )
         {
             if( _handler )
             {
@@ -39,13 +39,13 @@ public:
     bool start()
     {
         _stop = false;
-        std::thread t( &streamport::thread_task, this, this );
-        t.detach();
+        omicron::Thread::start();
         return true;
     }
     bool stop()
     {
         _stop = true;
+        omicron::Thread::stop();
         return true;
     }
 

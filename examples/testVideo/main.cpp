@@ -34,6 +34,10 @@ using namespace omega;
 using namespace omegaToolkit;
 using namespace omegaToolkit::ui;
 
+#include <omicron/Timer.h>
+
+#include <vector>
+
 #include "video_ctrl.h"
 #include "video_stream_manager.h"
 
@@ -52,41 +56,48 @@ public:
         myUiModule = UiModule::createAndInitialize();
         Ref<Container> myUi = myUiModule->getUi();
 
-        VideoCtrl* v1 = VideoCtrl::create( myUi );
-        v1->startVideo();
-        v1->setPosition( omega::Vector2f( 0, 0 ) );
-        v1->setSize( omega::Vector2f( 3840, 2160 ) );
+        int nXOff = 0;
+        int nScreenW = 800;
+        int nScreenH = 600;
 
-        VideoCtrl* v2 = VideoCtrl::create( myUi );
-        v2->startVideo( );
-        v2->setPosition( omega::Vector2f( 3840, 0 ) );
-        v2->setSize( omega::Vector2f( 3840, 2160 ) );
+        std::vector< int > xx;
+        std::vector< int > yy;
 
-        VideoCtrl* v3 = VideoCtrl::create( myUi );
-        v3->startVideo(  );
-        v3->setPosition( omega::Vector2f( 7680, 0 ) );
-        v3->setSize( omega::Vector2f( 3840, 2160 ) );
+        int xNum = 2;
+        int yNum = 2;
+        int w = nScreenW / xNum;
+        int h = nScreenH / yNum;
 
-        VideoCtrl* v4 = VideoCtrl::create( myUi );
-        v4->startVideo( );
-        v4->setPosition( omega::Vector2f( 0, 2160 ) );
-        v4->setSize( omega::Vector2f( 3840, 2160 ) );
+        for( int i = 0; i < xNum; i ++ )
+        {
+            xx.push_back( nScreenW * i / xNum );
+        }
+        for( int i = 0; i < yNum; i ++ )
+        {
+            yy.push_back( nScreenH * i / yNum );
+        }
 
-        VideoCtrl* v5 = VideoCtrl::create( myUi );
-        v5->startVideo( );
-        v5->setPosition( omega::Vector2f( 3840, 2160 ) );
-        v5->setSize( omega::Vector2f( 3840, 2160 ) );
-
-        VideoCtrl* v6 = VideoCtrl::create( myUi );
-        v6->startVideo( );
-        v6->setPosition( omega::Vector2f( 7680, 2160 ) );
-        v6->setSize( omega::Vector2f( 3840, 2160 ) );
+        for( int i = 0; i < xx.size(); i++ )
+        {
+            for( int j = 0; j < yy.size(); j ++ )
+            {
+                VideoCtrl* v1 = VideoCtrl::create( myUi );
+                v1->startVideo();
+                v1->setPosition( omega::Vector2f( nXOff + xx[ i ], yy[ j ] ) );
+                v1->setSize( omega::Vector2f( w, h ) );
+            }
+        }
     }
 
     void update( const UpdateContext & context )
     {
+        //omicron::Timer timer;
+        //timer.start();
         //update all video streams to next frame
         VideoStreamManager::instance()->updateAllStreams();
+
+        //timer.stop();
+        //fprintf( stderr, "---------------  update : %f\n", timer.getElapsedTimeInMilliSec() );
     }
 
 private:

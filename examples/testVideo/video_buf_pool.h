@@ -3,7 +3,7 @@
 
 #include <stack>
 
-#include <omicron/fast_mutex.h>
+#include <omicron/Thread.h>
 
 struct VideoData
 {
@@ -36,7 +36,7 @@ private:
     std::stack< VideoData* > _bufs;
     int _maxSize;
 
-    fast_mutex _mutex;
+    omicron::Lock _mutex;
 };
 
 #endif

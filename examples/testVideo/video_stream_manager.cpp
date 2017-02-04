@@ -18,7 +18,7 @@ VideoStreamManager::~VideoStreamManager( void )
 
 VideoStreamPort* VideoStreamManager::getVideoStream( )
 {
-    fast_mutex_autolock autolock( _mutex );
+    omicron::AutoLock autolock( _mutex );
     VideoStreamPort* vsd = new VideoStreamPort;
     vsd->init( );
     _videoStreams.push_back( vsd );
@@ -27,8 +27,9 @@ VideoStreamPort* VideoStreamManager::getVideoStream( )
 
 void VideoStreamManager::delVideoStream( VideoStreamPort* video_stream )
 {
-    fast_mutex_autolock autolock( _mutex );
-    for( auto it = _videoStreams.begin(); it != _videoStreams.end(); ++it )
+    omicron::AutoLock autolock( _mutex );
+    for( std::list< VideoStreamPort* >::iterator it = _videoStreams.begin();
+         it != _videoStreams.end(); ++it )
     {
         VideoStreamPort* vs = *it;
         if( vs == video_stream )
@@ -56,8 +57,9 @@ bool VideoStreamManager::init()
 
 void VideoStreamManager::release()
 {
-    fast_mutex_autolock autolock( _mutex );
-    for( auto it = _videoStreams.begin(); it != _videoStreams.end(); ++it )
+    omicron::AutoLock autolock( _mutex );
+    for( std::list< VideoStreamPort* >::iterator it = _videoStreams.begin();
+         it != _videoStreams.end(); ++it )
     {
         VideoStreamPort* vs = *it;
         vs->release();

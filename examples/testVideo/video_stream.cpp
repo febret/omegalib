@@ -7,7 +7,7 @@ namespace RENDER
 VideoStream::VideoStream( void )
     : _videoData( NULL )
 {
-    fast_mutex_autolock autolock( _videoDataMutex );
+    omicron::AutoLock autolock( _videoDataMutex );
     while( _videoDataBuf.size() > 0 )
     {
         VideoData* video_data = _videoDataBuf.front();
@@ -34,7 +34,7 @@ bool VideoStream::init()
 
 void VideoStream::release()
 {
-    fast_mutex_autolock autolock( _videoDataMutex );
+    omicron::AutoLock autolock( _videoDataMutex );
     while( _videoDataBuf.size() > 0 )
     {
         VideoData* video_data = _videoDataBuf.front();
@@ -62,7 +62,7 @@ void VideoStream::updateFrame()
         delete _videoData;
         _videoData = NULL;
     }
-    fast_mutex_autolock lock( _videoDataMutex );
+    omicron::AutoLock lock( _videoDataMutex );
     if( _videoDataBuf.size() == 0 )
     {
         return;

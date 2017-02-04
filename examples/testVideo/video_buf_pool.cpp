@@ -61,7 +61,7 @@ bool VideoBufPool::init( int maxSize )
 
 void VideoBufPool::release()
 {
-    fast_mutex_autolock autolock( _mutex );
+    omicron::AutoLock autolock( _mutex );
     while( !_bufs.empty() )
     {
         VideoData* buf = _bufs.top();
@@ -72,19 +72,19 @@ void VideoBufPool::release()
 
 int VideoBufPool::getMaxSize()
 {
-    fast_mutex_autolock autolock( _mutex );
+    omicron::AutoLock autolock( _mutex );
     return _maxSize;
 }
 
 int VideoBufPool::getFreeCount()
 {
-    fast_mutex_autolock autolock( _mutex );
+    omicron::AutoLock autolock( _mutex );
     return _bufs.size();
 }
 
 VideoData* VideoBufPool::malloc( int w, int h, int size )
 {
-    fast_mutex_autolock autolock( _mutex );
+    omicron::AutoLock autolock( _mutex );
     if( _bufs.empty() )
     {
         return NULL;
@@ -101,6 +101,6 @@ VideoData* VideoBufPool::malloc( int w, int h, int size )
 
 void VideoBufPool::free( VideoData* buf )
 {
-    fast_mutex_autolock autolock( _mutex );
+    omicron::AutoLock autolock( _mutex );
     _bufs.push( buf );
 }

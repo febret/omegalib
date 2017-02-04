@@ -219,7 +219,7 @@ void VideoCtrlRenderable::refreshFont()
 
     if( _video->_fontFamily != "" )
     {
-        _font = getRenderer()->getFont( _video->_fontFamily, DrawInterface::FontTypePolygon );
+        _font = getRenderer()->getFont( _video->_fontFamily, DrawInterface::FTGLPolygon );
     }
     if( _font == NULL )
     {
@@ -234,7 +234,9 @@ void VideoCtrlRenderable::drawContent( const DrawContext& context )
     omega::Rectf vpTilePixel( tileOffs.cast< double >(),
                               ( tileOffs + context.tile->pixelSize.cast< double >() ).cast< double >() );
 
-    omega::Rectf vpCtrl( _video->getPosition(), _video->getPosition() + _video->getSize() );
+    omega::Rectf vpCtrl( omega::Vector2f( _video->getPosition().x() + 1, _video->getPosition().y() + 1 ),
+                         omega::Vector2f( ( _video->getPosition().x() + _video->getSize().x() - 1 ),
+                                          ( _video->getPosition().y() + _video->getSize().y() - 1 ) ) );
     if( !vpTilePixel.intersects( vpCtrl ) )
     {
         return;
@@ -244,9 +246,9 @@ void VideoCtrlRenderable::drawContent( const DrawContext& context )
     // required but is useful to draw widget background and borders.
     glUseProgram( 0 );
     WidgetRenderable::drawContent( context );
-
+	
+	//Sleep( 100 );
     renderVideo( context );
-
     glUseProgram( myShaderProgram );
     renderSubtitle( context );
 }
@@ -355,7 +357,7 @@ void VideoCtrlRenderable::renderVideo( const DrawContext& context )
     {
         if( _video->_showBorder )
         {
-            auto& color = _video->_borderColor;
+            omega::Color& color = _video->_borderColor;
             int lineWidth = _video->_borderWidth;
             glLineWidth( lineWidth );
             glColor3f( color.getRed(), color.getGreen(), color.getBlue() );

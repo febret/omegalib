@@ -4,7 +4,7 @@
 #include <list>
 
 #include <omicron/otypes.h>
-#include <omicron/fast_mutex.h>
+#include <omicron/Thread.h>
 
 #include "video_stream_port.h"
 
@@ -28,7 +28,7 @@ private:
 
 private:
     std::list< VideoStreamPort* > _videoStreams;
-    fast_mutex _mutex;
+    omicron::Lock _mutex;
 };
 
 #endif

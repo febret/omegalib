@@ -7,7 +7,7 @@
 #include <queue>
 
 #include <omicron/otypes.h>
-#include <omicron/fast_mutex.h>
+#include <omicron/Thread.h>
 
 #include "video_buf_pool.h"
 
@@ -40,7 +40,7 @@ public:
 protected:
     VideoData* _videoData;
     std::queue<VideoData*> _videoDataBuf;
-    fast_mutex _videoDataMutex;
+    omicron::Lock _videoDataMutex;
 
 	VideoBufPool _pool;
 };
