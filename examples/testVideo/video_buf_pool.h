@@ -36,7 +36,7 @@ private:
     std::stack< VideoData* > _bufs;
     int _maxSize;
 
-    omicron::Lock _mutex;
+    fast_mutex _mutex;
 };
 
 #endif

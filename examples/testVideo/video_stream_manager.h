@@ -28,7 +28,7 @@ private:
 
 private:
     std::list< VideoStreamPort* > _videoStreams;
-    omicron::Lock _mutex;
+	fast_mutex _mutex;
 };
 
 #endif

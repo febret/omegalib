@@ -90,7 +90,7 @@ namespace omega {
         //@{
         void addRenderer(Renderer* client);
         Renderer* getRendererByContextId(int id);
-        RendererList& getRendererList();
+        const RendererList& getRendererList();
         void removeRenderPass(const String& renderPassName);
         //@}
 
@@ -249,7 +249,7 @@ namespace omega {
     { return SystemManager::instance()->getServiceManager(); }
 
     ///////////////////////////////////////////////////////////////////////////
-    inline RendererList& Engine::getRendererList()
+    inline const RendererList& Engine::getRendererList()
     { return myClients; }
 
     ///////////////////////////////////////////////////////////////////////////

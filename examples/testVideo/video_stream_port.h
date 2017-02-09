@@ -24,7 +24,7 @@ public:
 private:
     VideoData* _videoData;
     std::queue<VideoData*> _videoDataBuf;
-    omicron::Lock _videoDataMutex;
+    fast_mutex _mutex;
 
     VideoBufPool _pool;
 

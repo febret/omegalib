@@ -72,6 +72,9 @@ bool WindowImpl::configInit(const uint128_t& initID)
         myTile = ds->getDisplayConfig().tiles[name];
     }
 
+    // Serialize window init execution since we are tinkering with x cursors on linux inside there.
+    sInitLock.lock();
+
     ApplicationBase* app = SystemManager::instance()->getApplication();
     if(app)
     {
@@ -79,10 +82,6 @@ bool WindowImpl::configInit(const uint128_t& initID)
         myRenderer->setGpuContext(myPipe->getGpuContext());
         myRenderer->initialize();
     }
-    else return false;
-
-    // Serialize window init execution since we are tinkering with x cursors on linux inside there.
-    sInitLock.lock();
     bool res = Window::configInit(initID);
     sInitLock.unlock();
     return res;
