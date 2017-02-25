@@ -57,14 +57,14 @@ public:
         Ref<Container> myUi = myUiModule->getUi();
 
         int nXOff = 0;
-        int nScreenW = 800;
-        int nScreenH = 600;
+        int nScreenW = 3840;
+        int nScreenH = 800;
 
         std::vector< int > xx;
         std::vector< int > yy;
 
-        int xNum = 2;
-        int yNum = 2;
+        int xNum = 6;
+        int yNum = 4;
         int w = nScreenW / xNum;
         int h = nScreenH / yNum;
 
@@ -77,27 +77,33 @@ public:
             yy.push_back( nScreenH * i / yNum );
         }
 
+        int nVideoPort = 4602;
+        const char* ip = "168.168.68.42";
+        int n = 0;
         for( int i = 0; i < xx.size(); i++ )
         {
             for( int j = 0; j < yy.size(); j ++ )
             {
                 VideoCtrl* v1 = VideoCtrl::create( myUi );
-                v1->startVideo();
+                v1->startVideo( ip, ip, nVideoPort, nVideoPort + 1, 60, 0 );
                 v1->setPosition( omega::Vector2f( nXOff + xx[ i ], yy[ j ] ) );
                 v1->setSize( omega::Vector2f( w, h ) );
+
+                nVideoPort += 2;
             }
         }
     }
 
     void update( const UpdateContext & context )
     {
-        //omicron::Timer timer;
-        //timer.start();
+        omicron::Timer timer;
+        timer.start();
         //update all video streams to next frame
         VideoStreamManager::instance()->updateAllStreams();
 
-        //timer.stop();
-        //fprintf( stderr, "---------------  update : %f\n", timer.getElapsedTimeInMilliSec() );
+        timer.stop();
+        fprintf( stderr, "---------------  update : %f\n", timer.getElapsedTimeInMilliSec() );
+        //fprintf( stderr, "------------------------------------------\n" );
     }
 
 private:

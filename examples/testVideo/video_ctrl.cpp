@@ -36,7 +36,8 @@ Renderable* VideoCtrl::createRenderable()
     return new VideoCtrlRenderable( this );
 }
 
-void VideoCtrl::startVideo( )
+void VideoCtrl::startVideo( const std::string& realIp, const std::string& ip,
+                     int port, int qosPort, int mediaType, int encrypt )
 {
     if( !_videoStream )
     {
@@ -242,6 +243,7 @@ void VideoCtrlRenderable::drawContent( const DrawContext& context )
         return;
     }
 
+	//fprintf( stderr, "%s %p\n", context.tile->name.c_str(), this );
     // Calling the base WidgetRenderable draw function is not
     // required but is useful to draw widget background and borders.
     glUseProgram( 0 );

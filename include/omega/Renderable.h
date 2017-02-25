@@ -84,7 +84,7 @@ namespace omega {
 		virtual ~RenderableFactory();
 		virtual Renderable* createRenderable() = 0;
 		virtual void initialize(Engine* srv);
-		void dispose();
+		virtual void dispose();
 		void refresh();
 		virtual bool isInitialized();
 		Renderable* getRenderable(Renderer* client);

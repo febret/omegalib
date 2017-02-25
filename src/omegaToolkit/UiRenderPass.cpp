@@ -57,7 +57,7 @@ UiRenderPass::UiRenderPass(Renderer* client, const String& name):
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 void UiRenderPass::render(Renderer* client, const DrawContext& context)
 {
-	sLock.lock();
+	//sLock.lock();
 	myDrawTimeStat->startTiming();
 
 	if(context.task == DrawContext::SceneDrawTask)
@@ -109,5 +109,5 @@ void UiRenderPass::render(Renderer* client, const DrawContext& context)
 	}
 
 	myDrawTimeStat->stopTiming();
-	sLock.unlock();
+	//sLock.unlock();
 }

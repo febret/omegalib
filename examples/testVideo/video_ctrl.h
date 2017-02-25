@@ -18,7 +18,8 @@ public:
 
     virtual omega::Renderable* createRenderable();
 
-    void startVideo();
+    void startVideo( const std::string& realIp, const std::string& ip,
+                     int port, int qosPort, int mediaType, int encrypt );
     void stopVideo();
 
 
