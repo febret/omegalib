@@ -56,6 +56,8 @@ namespace omegaToolkit {
     public:
         enum Layer { Back, Middle, Front, NumLayers };
         enum BlendMode { BlendInherit, BlendNormal, BlendAdditive, BlendDisabled };
+        enum HorizontalAlign { AlignRight, AlignLeft, AlignCenter};
+        enum VerticalAlign { AlignTop, AlignMiddle, AlignBottom};
         static const int MaxWidgets = 16384;
 
         // Border style data
@@ -257,6 +259,11 @@ namespace omegaToolkit {
         void setSizeAnchor(const Vector2f& value) { mySizeAnchor = value; }
         const Vector2f getSizeAnchor() { return mySizeAnchor; }
 
+        HorizontalAlign getHorizontalAlign();
+        void setHorizontalAlign(HorizontalAlign value);
+        VerticalAlign getVerticalAlign();
+        void setVerticalAlign(VerticalAlign value);
+
         WidgetFactory* getFactory();
 
         //! Debug mode
@@ -297,6 +304,8 @@ namespace omegaToolkit {
 
         // Menu Widget Sounds
         void playMenuScrollSound();
+
+		unsigned int getFontAlignFlags();
 
     protected:
         omega::Vector2f myPosition;
@@ -387,6 +396,9 @@ namespace omegaToolkit {
 
         static Dictionary<int, ui::Widget*> mysWidgets;
         static fast_mutex mysWidgetsMutex;  //mutex for Dictionary above
+
+        HorizontalAlign myHorizontalAlign;
+        VerticalAlign myVerticalAlign;
     };
 
     ///////////////////////////////////////////////////////////////////////////
@@ -628,12 +640,9 @@ namespace omegaToolkit {
         {
             if(myContainer != NULL)
             {
-                if(myContainer != NULL)
-                {
-                    ((Widget*)myContainer)->setPosition(
-                        ((Widget*)myContainer)->getPosition()[dimension] + 
-                        value - myPosition[dimension], dimension);
-                }
+                ((Widget*)myContainer)->setPosition(
+                    ((Widget*)myContainer)->getPosition()[dimension] + 
+                    value - myPosition[dimension], dimension);
             }
         }
         else
@@ -649,6 +658,22 @@ namespace omegaToolkit {
         // Refresh the widget, so its renderables will load the new shader.
         refresh();
     }
+
+    ////////////////////////////////////////////////////////////////////////////
+    inline Widget::HorizontalAlign Widget::getHorizontalAlign()
+    { return myHorizontalAlign; }
+
+    ////////////////////////////////////////////////////////////////////////////
+    inline void Widget::setHorizontalAlign(HorizontalAlign value) 
+    { myHorizontalAlign = value; requestLayoutRefresh();}
+
+    ////////////////////////////////////////////////////////////////////////////
+    inline Widget::VerticalAlign Widget::getVerticalAlign() 
+    { return myVerticalAlign; }
+
+    ////////////////////////////////////////////////////////////////////////////
+    inline void Widget::setVerticalAlign(VerticalAlign value) 
+    { myVerticalAlign = value; requestLayoutRefresh();}
 
     ///////////////////////////////////////////////////////////////////////////
     // NOTE: Widget::getSource is only used by UiScriptCommand. See if there is a way to get rid of this.

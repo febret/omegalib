@@ -79,8 +79,6 @@ namespace omegaToolkit { namespace ui {
     friend class UiRenderPass;
     public:
         enum Layout {LayoutFree, LayoutHorizontal, LayoutVertical, LayoutGridHorizontal, LayoutGridVertical};
-        enum HorizontalAlign { AlignRight, AlignLeft, AlignCenter};
-        enum VerticalAlign { AlignTop, AlignMiddle, AlignBottom};
 
         static Container* create(Layout layout, Container* parent);
 
@@ -120,10 +118,6 @@ namespace omegaToolkit { namespace ui {
         //! Sets the padding space between elements within the container.
         void setMargin(float value);
         float getMargin();
-        HorizontalAlign getHorizontalAlign();
-        void setHorizontalAlign(HorizontalAlign value);
-        VerticalAlign getVerticalAlign();
-        void setVerticalAlign(VerticalAlign value);
         int getGridRows();
         int getGridColumns();
         void setGridRows(int value);
@@ -181,8 +175,6 @@ namespace omegaToolkit { namespace ui {
         float myMargin;
         int myGridRows;
         int myGridColumns;
-        HorizontalAlign myHorizontalAlign;
-        VerticalAlign myVerticalAlign;
         bool myClipping;
 
         Container3dSettings my3dSettings;
@@ -240,22 +232,6 @@ namespace omegaToolkit { namespace ui {
     ////////////////////////////////////////////////////////////////////////////
     inline void Container::setMargin(float value) 
     { myMargin = value; requestLayoutRefresh(); }
-
-    ////////////////////////////////////////////////////////////////////////////
-    inline Container::HorizontalAlign Container::getHorizontalAlign()
-    { return myHorizontalAlign; }
-
-    ////////////////////////////////////////////////////////////////////////////
-    inline void Container::setHorizontalAlign(HorizontalAlign value) 
-    { myHorizontalAlign = value; requestLayoutRefresh();}
-
-    ////////////////////////////////////////////////////////////////////////////
-    inline Container::VerticalAlign Container::getVerticalAlign() 
-    { return myVerticalAlign; }
-
-    ////////////////////////////////////////////////////////////////////////////
-    inline void Container::setVerticalAlign(VerticalAlign value) 
-    { myVerticalAlign = value; requestLayoutRefresh();}
 
     ////////////////////////////////////////////////////////////////////////////
     inline int Container::getGridRows()

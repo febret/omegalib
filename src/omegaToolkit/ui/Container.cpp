@@ -58,8 +58,6 @@ Container::Container(Engine* server):
         Widget(server),
         myPadding(5),
         myMargin(5),
-        myHorizontalAlign(AlignCenter),
-        myVerticalAlign(AlignMiddle),
         myGridRows(1),
         myGridColumns(1),
         myClipping(false),

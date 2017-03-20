@@ -105,17 +105,17 @@ BOOST_PYTHON_MODULE(omegaToolkit)
         ;
 
     // Vertical Align
-    PYAPI_ENUM(Container::VerticalAlign, VAlign)
-        PYAPI_ENUM_VALUE(Container, AlignTop)
-        PYAPI_ENUM_VALUE(Container, AlignMiddle)
-        PYAPI_ENUM_VALUE(Container, AlignBottom)
+    PYAPI_ENUM(Widget::VerticalAlign, VAlign)
+        PYAPI_ENUM_VALUE(Widget, AlignTop)
+        PYAPI_ENUM_VALUE(Widget, AlignMiddle)
+        PYAPI_ENUM_VALUE(Widget, AlignBottom)
         ;
 
     // Horizontal Align
-    PYAPI_ENUM(Container::HorizontalAlign, HAlign)
-        PYAPI_ENUM_VALUE(Container, AlignLeft)
-        PYAPI_ENUM_VALUE(Container, AlignCenter)
-        PYAPI_ENUM_VALUE(Container, AlignRight)
+    PYAPI_ENUM(Widget::HorizontalAlign, HAlign)
+        PYAPI_ENUM_VALUE(Widget, AlignLeft)
+        PYAPI_ENUM_VALUE(Widget, AlignCenter)
+        PYAPI_ENUM_VALUE(Widget, AlignRight)
         ;
 
     PYAPI_BASE_CLASS(ToolkitUtils)
@@ -282,6 +282,10 @@ BOOST_PYTHON_MODULE(omegaToolkit)
         PYAPI_REF_GETTER(Widget, getHorizontalPrevWidget)
         PYAPI_REF_GETTER(Widget, getVerticalNextWidget)
         PYAPI_REF_GETTER(Widget, getVerticalPrevWidget)
+        PYAPI_METHOD(Widget, setHorizontalAlign)
+        PYAPI_METHOD(Widget, getHorizontalAlign)
+        PYAPI_METHOD(Widget, setVerticalAlign)
+		PYAPI_METHOD(Widget, getVerticalAlign)
         ;
 
     // Container
@@ -305,10 +309,6 @@ BOOST_PYTHON_MODULE(omegaToolkit)
         PYAPI_METHOD(Container, setPadding)
         PYAPI_METHOD(Container, getMargin)
         PYAPI_METHOD(Container, setMargin)
-        PYAPI_METHOD(Container, setHorizontalAlign)
-        PYAPI_METHOD(Container, getHorizontalAlign)
-        PYAPI_METHOD(Container, setVerticalAlign)
-		PYAPI_METHOD(Container, getVerticalAlign)
 		PYAPI_METHOD(Container, setGridRows)
 		PYAPI_METHOD(Container, getGridRows)
 		PYAPI_METHOD(Container, setGridColumns)

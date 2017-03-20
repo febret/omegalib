@@ -88,7 +88,9 @@ Widget::Widget(Engine* server):
     myPinned(false),
     myShaderEnabled(true),
     mySizeAnchorEnabled(false),
-    mySizeAnchor(Vector2f::Zero())
+    mySizeAnchor(Vector2f::Zero()),
+    myHorizontalAlign(AlignCenter),
+    myVerticalAlign(AlignMiddle)
 {
     myId = mysNameGenerator.getNext();
     myName = mysNameGenerator.generate();
@@ -612,6 +614,25 @@ void Widget::updateStyle()
 bool Widget::isIn3DContainer()
 {
     return myContainer->isIn3DContainer();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+unsigned int Widget::getFontAlignFlags()
+{
+    unsigned int alignFlags = 0;
+    switch(myHorizontalAlign)
+    {
+    case AlignRight: alignFlags |= Font::HARight; break;
+    case AlignLeft: alignFlags |= Font::HALeft; break;
+    case AlignCenter: alignFlags |= Font::HACenter; break;
+    }
+    switch(myVerticalAlign)
+    {
+    case AlignTop: alignFlags |= Font::VATop; break;
+    case AlignBottom: alignFlags |= Font::VABottom; break;
+    case AlignMiddle: alignFlags |= Font::VAMiddle; break;
+    }
+    return alignFlags;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
