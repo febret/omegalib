@@ -713,8 +713,9 @@ void Container::handleEvent(const Event& evt)
                 for(int layer = Widget::Front; layer >= 0; layer--)
                 {
                     // For pointer interaction, just dispatch the event to all children
-                    foreach(Widget* w, myChildren)
+                    for(auto it = myChildren.rbegin(); it != myChildren.rend(); it++)
                     {
+                        Widget* w = *it;
                         if(w->getLayer() == layer)
                         {
                             w->handleEvent(evt);
